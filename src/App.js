@@ -3,9 +3,17 @@ import './App.css';
 
 function App() {
   const [url, setUrl] = useState('');
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
-    alert(`Submitting Name ${url}`)
+    try {
+      var response = await fetch('/api/eren');
+      if (!response.ok) throw new Error('Network response was not OK');
+      var result = await response.json();
+      alert(result.message);
+    }
+    catch (err) {
+      console.log(err);
+    }
   }
   return (
     <div className="App">
