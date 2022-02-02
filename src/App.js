@@ -3,19 +3,29 @@ import './App.css';
 
 function App() {
   const [url, setUrl] = useState('');
+  const [token, setToken] = useState('');
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    try {
-      var response = await fetch('/api/eren');
-      if (!response.ok) throw new Error('Network response was not OK');
-      var result = await response.json();
-      alert(result.message);
-    }
-    catch (err) {
-      console.log(err);
-    }
+    window.grecaptcha.execute('6LesiFIeAAAAAFucK4iqlkaqCTuIC9a1Dt4nmdwZ', { action: 'submit' }).then(async function (token) {
+      try {
+        var formData = { url: url, token: token };
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        };
+        var response = await fetch('/api/eren', requestOptions);
+        if (!response.ok) throw new Error('Network response was not OK');
+        var result = await response.json();
+        alert(result.message);
+      }
+      catch (err) {
+        console.log(err);
+      }
+    });
   }
   return (
+
     <div className="App">
       <div className="limiter">
         <div className="container-login100">
@@ -37,7 +47,6 @@ function App() {
               <div className="container-login100-form-btn">
                 <input className="login100-form-btn" value="Short" type="submit"></input>
               </div>
-
             </form>
           </div>
         </div>
