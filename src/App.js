@@ -14,7 +14,7 @@ function App() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData)
         };
-        var response = await fetch('/api/eren', requestOptions);
+        var response = await fetch(`/api/eren?key=AIzaSyCtNnPUAsVMke4o5PEUe1g6JIR2ObfUcw4`, requestOptions);
         if (!response.ok) throw new Error('Network response was not OK');
         var result = await response.json();
         alert(result.message);
